@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XamlBehaviors;assembly=XamlBehaviors"
+             x:Class="XamlBehaviors.Pages.MainPage"
+             Padding="10, 20, 10, 10">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+
+      <local:BooleanToObjectConverter x:Key="boolToStyleImage"
+                                              x:TypeArguments="Style">
+        <local:BooleanToObjectConverter.FalseObject>
+          <Style TargetType="Image">
+            <Setter Property="HeightRequest" Value="20" />
+            <Setter Property="Source" Value="{local:ImageResource XamlBehaviors.Images.error.png}" />
+          </Style>
+        </local:BooleanToObjectConverter.FalseObject>
+
+        <local:BooleanToObjectConverter.TrueObject>
+          <Style TargetType="Image">
+            <Setter Property="HeightRequest" Value="20" />
+            <Setter Property="Source" Value="{local:ImageResource XamlBehaviors.Images.success.png}" />
+          </Style>
+        </local:BooleanToObjectConverter.TrueObject>
+      </local:BooleanToObjectConverter>
+
+      <Style x:Key="baseStyle"
+             TargetType="Label">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontAttributes" Value="Italic" />
+      </Style>
+
+      <local:BooleanToObjectConverter x:Key="boolToStylePassword"
+                                           x:TypeArguments="Style">
+        <local:BooleanToObjectConverter.FalseObject>
+          <Style TargetType="Label" BasedOn="{StaticResource baseStyle}">
+            <Setter Property="TextColor" Value="#F44336" />
+            <Setter Property="Text" Value="Enter a valid password" />
+          </Style>
+        </local:BooleanToObjectConverter.FalseObject>
+
+        <local:BooleanToObjectConverter.TrueObject>
+          <Style TargetType="Label" BasedOn="{StaticResource baseStyle}">
+            <Setter Property="TextColor" Value="#4CAF50" />
+            <Setter Property="Text" Value="Your password is valid" />
+          </Style>
+        </local:BooleanToObjectConverter.TrueObject>
+
+      </local:BooleanToObjectConverter>
+
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <StackLayout>
+
+    <Grid>
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="50" />
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="40" />
+      </Grid.ColumnDefinitions>
+
+
+      <Label LineBreakMode="WordWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Password must contain at least 8 characters, 1 number, 1 uppercase and 1 lowercase" FontSize="16"/>
+
+      <Entry Grid.Row="1" Grid.Column="1" Placeholder="Password" x:Name="password" IsPassword="False">
+        <Entry.Behaviors>
+          <local:PasswordValidatorBehavior x:Name="passwordValidatorBehavior"/>
+        </Entry.Behaviors>
+      </Entry>
+      <Image Grid.Row="1" Grid.Column="2" x:Name="passwordSuccessErrorImage"
+                  Style="{Binding Source={x:Reference passwordValidatorBehavior}, 
+                                Path=IsValid, 
+                                Converter={StaticResource boolToStyleImage}}"/>
+      <Label Grid.Row="2" Grid.Column="1" Style="{Binding Source={x:Reference passwordValidatorBehavior}, 
+                                Path=IsValid, 
+                                Converter={StaticResource boolToStylePassword}}" />
+
+      <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Confirm Password" FontSize="16" />
+      <Entry Grid.Row="4" Grid.Column="1" x:Name="confirmPassword" Placeholder="Confirm Password" IsPassword="False">
+        <Entry.Behaviors>
+          <local:ConfirmPasswordBehavior x:Name="confirmPasswordBehavior" CompareToEntry="{Binding Source={x:Reference password}}" />
+        </Entry.Behaviors>
+      </Entry>
+      <Image Grid.Row="4" Grid.Column="2" x:Name="confirmPasswordSuccessErrorImage"
+            Style="{Binding Source={x:Reference confirmPasswordBehavior}, 
+                                Path=IsValid, 
+                                Converter={StaticResource boolToStyleImage}}"/>
+      
+    </Grid>
+
+  </StackLayout>
+
+</ContentPage>

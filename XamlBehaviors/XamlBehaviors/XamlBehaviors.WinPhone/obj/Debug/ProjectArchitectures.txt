@@ -1,0 +1,2 @@
+C:\Users\m.astrantzi\Documents\Visual Studio 2015\Projects\XamlBehaviors\XamlBehaviors\XamlBehaviors.WinPhone\XamlBehaviors.WinPhone.csproj;neutral
+C:\Users\m.astrantzi\Documents\Visual Studio 2015\Projects\XamlBehaviors\XamlBehaviors\XamlBehaviors\XamlBehaviors.csproj;neutral
